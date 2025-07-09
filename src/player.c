@@ -3,6 +3,7 @@
 #include "player.h"
 
 Player player;
+
 void init_player(int sx, int sy) {
     player.x = sx;
     player.y = sy;
@@ -14,6 +15,9 @@ void init_player(int sx, int sy) {
     player.armor = 0;
     player.level = 1;
     player.exp = 0;
+    player.alive = 1;
+    player.re_used = 0;
+    player.accessory_count = 0;
 }
 
 int has_accessory(Player *p, const char *code) {
@@ -38,7 +42,7 @@ void level_up(Player *p) {
     p->base_att += 2;
     p->base_def += 2;
     p->hp = p->max_hp;
-    p->exp = 0; // 남은 경험치는 버림
+    p->exp = 0;
 }
 
 void add_accessory(Player *p, const char *code) {
@@ -46,11 +50,11 @@ void add_accessory(Player *p, const char *code) {
     if (has_accessory(p, code)) return;
 
     strncpy(p->accessories[p->accessory_count], code, 2);
-    p->accessories[p->accessory_count][2] = '\0'; // null-terminate
+    p->accessories[p->accessory_count][2] = '\0';
     p->accessory_count++;
 
     if (strcmp(code, "RE") == 0) {
-        p->re_used = 0; // RE는 처음 얻을 때 사용 가능으로
+        p->re_used = 0;
     }
 }
 

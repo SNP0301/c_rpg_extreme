@@ -1,40 +1,45 @@
-// item.c
-#include <stdio.h>
 #include <string.h>
 #include "item.h"
 #include "player.h"
 #include "map.h"
 
-// 전역 player 변수를 직접 사용
-extern Player player;
+Item items[MAX_ITEM];
+int item_count = 0;
 
-// 아이템 정보가 저장된 구조체나 배열이 있다고 가정 (예시)
-typedef struct {
-    char type;        // 'W', 'A', 'O' 중 하나
-    char name[20];    // 장신구 이름 등
-    int value;        // 공격력, 방어력 등 수치
-} Item;
+void add_item(int x, int y, char type, const char* name, int value) {
+    if (item_count >= MAX_ITEM) return;
+    Item* item = &items[item_count++];
+    item->x = x;
+    item->y = y;
+    item->type = type;
+    strcpy(item->name, name);
+    item->value = value;
+}
 
-// 예: 위치별 아이템 정보가 저장된 2차원 배열 (map 좌표별)
-// 실제 구현시 이 부분은 입력 파일이나 초기화 함수에서 채움
-extern Item items[MAX_N][MAX_M];
 
 void open_item_box(int x, int y) {
-    Item *item = &items[x][y];
-    
-    if (item->type == 'W') {
-        equip_weapon(&player, item->value);
-    } else if (item->type == 'A') {
-        equip_armor(&player, item->value);
-    } else if (item->type == 'O') {
-        add_accessory(&player, item->name);
+    // 상자에 든 아이템 정보를 가져오는 로직이 필요하지만
+    // 여기서는 간단히 map[x][y]가 'B'라고 가정
+
+    // 실제로는 아이템 정보 구조체나 배열에서 가져와야 함
+    // 예: char item_type = ...; char item_name[4]; int item_value = ...;
+
+    // 임시 예시
+    char item_type = 'W';  // 무기
+    int item_value = 5;    // 공격력 5짜리 무기
+
+    // 아이템 효과 적용
+    if (item_type == 'W') {
+        equip_weapon(&player, item_value);
     }
-    
-    // 아이템 칸을 빈 칸으로 바꾸기
+    else if (item_type == 'A') {
+        equip_armor(&player, item_value);
+    }
+    else if (item_type == 'O') {
+        add_accessory(&player, "HR");  // 예: 회복 장신구
+    }
+
+    // 상자 위치 빈 칸으로 바꾸기
     map[x][y] = '.';
-    
-    // 아이템 정보 초기화(없음 처리)
-    item->type = '\0';
-    item->value = 0;
-    item->name[0] = '\0';
+    original_map[x][y] = '.';
 }

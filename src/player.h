@@ -4,16 +4,16 @@
 #define MAX_ACCESSORIES 4
 
 typedef struct {
-    int x, y;                  
-    int max_hp, hp;            
-    int base_att, base_def;    
-    int weapon, armor;         
-    int level, exp;           
+    int x, y;
+    int max_hp, hp;
+    int base_att, base_def;
+    int weapon, armor;
+    int level, exp;
 
-    int alive;                 
-    int re_used;               
+    int alive;
+    int re_used;
 
-    char accessories[MAX_ACCESSORIES][3]; 
+    char accessories[MAX_ACCESSORIES][3];
     int accessory_count;
 } Player;
 

@@ -12,6 +12,22 @@ void load_monsters() {
     // 예시: monsters[0] = {"Slime", 3, 1, 10, 5, 2, 3, 1, 0};
 }
 
+void add_monster(int x, int y, const char* name, int att, int def, int hp, int exp) {
+    if (monster_count >= MAX_MONSTER) return;  // 최대 수 제한
+
+    Monster* m = &monsters[monster_count++];
+    m->x = x;
+    m->y = y;
+    strncpy(m->name, name, 10);
+    m->name[10] = '\0';  // null-terminate
+    m->att = att;
+    m->def = def;
+    m->hp = hp;
+    m->max_hp = hp;
+    m->exp = exp;
+    m->alive = 1;
+}
+
 Monster* find_monster_at(int x, int y) {
     for (int i = 0; i < monster_count; i++) {
         if (monsters[i].alive && monsters[i].x == x && monsters[i].y == y)

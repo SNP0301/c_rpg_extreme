@@ -1,33 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "map.h"
 #include "player.h"
-#include "item.h"
-#include "monster.h"
+#include "map.h"
+#include "command.h"
 
-int main() {
-    load_map();
+extern Player player;
+extern int start_x, start_y;
+
+int main(int argc, char* argv[]) {
+    if (argc < 2) {
+        printf("Usage: %s input.txt\n", argv[0]);
+        return 1;
+    }
+    printf("Loading map from %s\n", argv[1]);
+    load_map(argv[1]);  // 입력 파일 경로를 load_map에 전달
     init_player(start_x, start_y);
+    printf("Load finished\n");
 
     char cmd;
-    while (player.hp > 0) {
+    while (player.hp > 0 && player.alive) {
         print_map(player.x, player.y);
-        print_player_status();
-
-        printf("Enter command (U/D/L/R): ");
+        // player 상태 출력 함수 필요하면 추가
+        printf("Enter command (U/D/L/R, Q to quit): ");
         cmd = getchar();
-        while (getchar() != '\n');  // 입력 버퍼 비우기
+        while (getchar() != '\n'); // 버퍼 비우기
 
-        if (cmd == 'Q' || cmd == 'q') break; // 종료 조건 예시
+        if (cmd == 'Q' || cmd == 'q') break;
 
-        if (cmd == 'U' || cmd == 'D' || cmd == 'L' || cmd == 'R') {
-            process_command(cmd);
-        } else {
-            printf("Invalid command!\n");
-        }
-        
-        // 여기서 필요하면 터미널 클리어 코드 추가 (OS별 상이)
-        system("cls");
+        process_command(cmd);
+        system("cls"); // 윈도우 터미널 클리어, 리눅스는 "clear"
     }
 
     printf("Game Over!\n");
