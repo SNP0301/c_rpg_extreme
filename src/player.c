@@ -50,7 +50,7 @@ void add_accessory(Player *p, const char *code) {
     if (has_accessory(p, code)) return;
     if (strlen(code) != 2) return; // 장신구 코드 길이 확인
     printf("Adding accessory: %s\n", code);
-printf("Current count: %d\n", p->accessory_count);
+    printf("Current count: %d\n", p->accessory_count);
 
 
     strncpy(p->accessories[p->accessory_count], code,3);  // 안전하게 복사

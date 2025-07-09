@@ -9,7 +9,6 @@ int item_count = 0;
 
 void add_item(int x, int y, char type, const char* name, int value) {
     // 아이템이 최대 개수를 초과하지 않도록 체크
-    printf("Load Item: (%d, %d) type=%c name=%s val=%d\n", x, y, type, name, value);
     if (item_count >= MAX_ITEM) return;
     Item* item = &items[item_count++];
     item->x = x;

@@ -29,10 +29,6 @@ void add_monster(int x, int y, const char* name, int att, int def, int hp, int e
     m->max_hp = hp;
     m->exp = exp;
     m->alive = 1;
-
-    // 디버그 출력: 추가 후 출력
-    printf("Load Monster: (%d,%d) name=%s att=%d def=%d hp=%d exp=%d\n",
-        x, y, m->name, att, def, hp, exp);
 }
 
 Monster* find_monster_at(int x, int y) {
