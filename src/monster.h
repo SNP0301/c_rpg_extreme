@@ -17,6 +17,8 @@ typedef struct {
 // 몬스터 배열과 카운트 (외부에서 접근 가능)
 extern Monster monsters[MAX_MONSTER];
 extern int monster_count;
+extern int game_over;
+
 
 // 함수 선언
 void add_monster(int x, int y, const char* name, int att, int def, int hp, int exp);

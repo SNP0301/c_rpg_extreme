@@ -6,6 +6,7 @@
 
 extern Player player;
 extern int start_x, start_y;
+extern int game_over;
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
@@ -18,9 +19,8 @@ int main(int argc, char* argv[]) {
     printf("Load finished\n");
 
     char cmd;
-    while (player.hp > 0 && player.alive) {
+    while (player.hp > 0 && !game_over) {
         print_map(player.x, player.y);
-        // player 상태 출력 함수 필요하면 추가
         printf("Enter command (U/D/L/R, Q to quit): ");
         cmd = getchar();
         while (getchar() != '\n'); // 버퍼 비우기
@@ -31,6 +31,10 @@ int main(int argc, char* argv[]) {
         system("cls"); // 윈도우 터미널 클리어, 리눅스는 "clear"
     }
 
-    printf("Game Over!\n");
+    if (game_over) {
+        printf("You defeated the Boss! Game Clear!\n");
+    } else {
+        printf("Game Over!\n");
+    }
     return 0;
 }

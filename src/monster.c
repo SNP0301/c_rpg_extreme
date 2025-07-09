@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <string.h>
-#include <stdlib.h>
 #include "monster.h"
 #include "player.h"
 #include "map.h"
 
+// 게임 종료 플래그 (보스 잡으면 1로 변경)
+int game_over = 0;
+
+extern char map[101][101];
 Monster monsters[MAX_MONSTER];
 int monster_count = 0;
 
@@ -15,10 +18,7 @@ void load_monsters() {
 void add_monster(int x, int y, const char* name, int att, int def, int hp, int exp) {
     if (monster_count >= MAX_MONSTER) return;
 
- 
     Monster* m = &monsters[monster_count++];
-    printf("Load Monster: (%d,%d) name=%s att=%d def=%d hp=%d exp=%d\n",
-        x, y, m->name, att, def, hp, exp);
     m->x = x;
     m->y = y;
     strncpy(m->name, name, 10);
@@ -29,6 +29,10 @@ void add_monster(int x, int y, const char* name, int att, int def, int hp, int e
     m->max_hp = hp;
     m->exp = exp;
     m->alive = 1;
+
+    // 디버그 출력: 추가 후 출력
+    printf("Load Monster: (%d,%d) name=%s att=%d def=%d hp=%d exp=%d\n",
+        x, y, m->name, att, def, hp, exp);
 }
 
 Monster* find_monster_at(int x, int y) {
@@ -60,16 +64,31 @@ void fight_monster(Player *p, Monster *m) {
         m->hp -= dmg;
 
         if (m->hp <= 0) {
+
+
             m->alive = 0;
             map[m->x][m->y] = '.';
+            original_map[m->x][m->y] = '.';
+
+            printf("After defeating %s, map[%d][%d] = %c\n", m->name, m->x, m->y, map[m->x][m->y]);
+            fflush(stdout);
+        
             int gained_exp = m->exp;
             if (has_accessory(p, "EX")) gained_exp = gained_exp * 120 / 100;
             p->exp += gained_exp;
+
             if (p->exp >= p->level * 5) level_up(p);
+
             if (has_accessory(p, "HR")) {
                 p->hp += 3;
                 if (p->hp > p->max_hp) p->hp = p->max_hp;
             }
+
+            // 보스 몬스터 잡으면 게임 종료 플래그 세우기
+            if (strcmp(m->name, "Boss") == 0) {
+                game_over = 1;
+            }
+
             return;
         }
 
