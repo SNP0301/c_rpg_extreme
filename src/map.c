@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <windows.h>  // 꼭 필요!
+
 #include "map.h"
 #include "monster.h"
 #include "item.h"
@@ -11,6 +13,8 @@ char map[MAX_MAP_SIZE][MAX_MAP_SIZE];
 char original_map[MAX_MAP_SIZE][MAX_MAP_SIZE];
 int start_x, start_y;
 char command[5001];
+
+extern void set_color(int color);
 
 void load_map(const char* filename) {
     FILE* fp = fopen(filename, "r");
@@ -81,18 +85,51 @@ int can_move(int x, int y) {
 void print_map(int px, int py) {
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < M; j++) {
-            if (i == px && j == py) printf("P");
-            else printf("%c", map[i][j]);
+            if (i == px && j == py) {
+                set_color(11); // 플레이어 위치: 밝은 파랑
+                printf("@");
+            } else {
+                char cell = map[i][j];
+                switch (cell) {
+                    case '.': set_color(10); break; // 초록
+                    case 'B': set_color(14); break; // 노랑
+                    case 'M':
+                    case '&': set_color(12); break; // 빨강
+                    case '^': set_color(13); break; // 보라
+                    case '#': set_color(7);  break; // 회색
+                    default:  set_color(7);  break; // 기본
+                }
+                printf("%c", cell);
+            }
         }
+        set_color(7); // 줄 끝나고 초기화
         printf("\n");
     }
+
+    set_color(7); // 전체 출력 후 초기화
     print_player_status();
+}
+
+void print_health_bar(int current_hp, int max_hp) {
+    printf("HP: ");
+    for (int i = 0; i < max_hp; i++) {
+        if (i < current_hp) {
+            set_color(12); // 빨간색
+            printf("❤️");
+        } else {
+            set_color(7); // 흰색 또는 기본
+            printf("🤍");
+        }
+    }
+    set_color(7); // 색 초기화
+    printf(" %d/%d\n", current_hp, max_hp);
 }
 
 void print_player_status() {
     extern Player player;  // player는 전역변수로 선언되어 있다고 가정
 
-    printf("HP: %d/%d  EXP: %d  Level: %d\n", player.hp, player.max_hp, player.exp, player.level);
+    print_health_bar(player.hp, player.max_hp);
+    printf("EXP: %d  Level: %d\n", player.exp, player.level);
     printf("Weapon: +%d  Armor: +%d\n", player.weapon, player.armor);
 
     printf("Accessories: ");
