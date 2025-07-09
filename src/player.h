@@ -13,7 +13,7 @@ typedef struct {
     int alive;
     int re_used;
 
-    char accessories[MAX_ACCESSORIES][3];
+    char accessories[MAX_ACCESSORIES][4];
     int accessory_count;
 } Player;
 
