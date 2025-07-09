@@ -17,7 +17,9 @@ typedef struct {
     int accessory_count;
 } Player;
 
-void init_player(Player *p, int start_x, int start_y);
+extern Player player;
+
+void init_player(int start_x, int start_y);
 int has_accessory(Player *p, const char *code);
 int get_total_att(Player *p);
 int get_total_def(Player *p);

@@ -3,6 +3,6 @@
 
 #include "player.h"
 
-void open_item_box(Player *p, char item_type, const char *name, int value);
+void open_item_box(int x, int y);
 
 #endif

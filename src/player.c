@@ -2,20 +2,18 @@
 #include <string.h>
 #include "player.h"
 
-void init_player(Player *p, int start_x, int start_y) {
-    p->x = start_x;
-    p->y = start_y;
-    p->max_hp = 20;
-    p->hp = 20;
-    p->base_att = 2;
-    p->base_def = 2;
-    p->weapon = 0;
-    p->armor = 0;
-    p->level = 1;
-    p->exp = 0;
-    p->alive = 1;
-    p->re_used = 0;
-    p->accessory_count = 0;
+Player player;
+void init_player(int sx, int sy) {
+    player.x = sx;
+    player.y = sy;
+    player.hp = 20;
+    player.max_hp = 20;
+    player.base_att = 2;
+    player.base_def = 2;
+    player.weapon = 0;
+    player.armor = 0;
+    player.level = 1;
+    player.exp = 0;
 }
 
 int has_accessory(Player *p, const char *code) {

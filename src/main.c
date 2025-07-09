@@ -1,30 +1,35 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "map.h"
 #include "player.h"
-#include "monster.h"
 #include "item.h"
+#include "monster.h"
 
 int main() {
-    Player player;
-
-    // 1. 맵 불러오기 및 플레이어 위치 초기화
     load_map();
-    init_player(&player, start_x, start_y);
+    init_player(start_x, start_y);
 
-    // 2. 테스트 출력
-    printf("===== RPG Extreme Test Start =====\n\n");
+    char cmd;
+    while (player.hp > 0) {
+        print_map(player.x, player.y);
+        print_player_status();
 
-    printf("[ 맵 상태 ]\n");
-    print_map(player.x, player.y);
+        printf("Enter command (U/D/L/R): ");
+        cmd = getchar();
+        while (getchar() != '\n');  // 입력 버퍼 비우기
 
-    printf("\n[ 플레이어 초기 상태 ]\n");
-    printf("LV : %d\n", player.level);
-    printf("HP : %d/%d\n", player.hp, player.max_hp);
-    printf("ATT : %d+%d\n", player.base_att, player.weapon);
-    printf("DEF : %d+%d\n", player.base_def, player.armor);
-    printf("EXP : %d/%d\n", player.exp, player.level * 5);
+        if (cmd == 'Q' || cmd == 'q') break; // 종료 조건 예시
 
-    printf("\n게임 루프는 추후 구현 예정!\n");
+        if (cmd == 'U' || cmd == 'D' || cmd == 'L' || cmd == 'R') {
+            process_command(cmd);
+        } else {
+            printf("Invalid command!\n");
+        }
+        
+        // 여기서 필요하면 터미널 클리어 코드 추가 (OS별 상이)
+        system("cls");
+    }
 
+    printf("Game Over!\n");
     return 0;
 }
