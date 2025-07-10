@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <windows.h>
+
 #include "player.h"
 #include "map.h"
 #include "command.h"
@@ -23,7 +24,7 @@ int main(int argc, char* argv[]) {
     set_color(8); 
     printf("Loading map from %s\n", argv[1]);
     set_color(8);
-    load_map(argv[1]);  // 입력 파일 경로를 load_map에 전달
+    load_map(argv[1]);
     init_player(start_x, start_y);
     set_color(10); 
     printf("Load finished\n");

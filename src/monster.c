@@ -1,19 +1,18 @@
 #include <stdio.h>
 #include <string.h>
+
 #include "monster.h"
 #include "player.h"
 #include "map.h"
 
-// 게임 종료 플래그 (보스 잡으면 1로 변경)
+
 int game_over = 0;
 
 extern char map[101][101];
 Monster monsters[MAX_MONSTER];
 int monster_count = 0;
 
-void load_monsters() {
-    // 실제로는 파일에서 로드되므로 이 함수는 사용되지 않음
-}
+void load_monsters() {}
 
 void add_monster(int x, int y, const char* name, int att, int def, int hp, int exp) {
     if (monster_count >= MAX_MONSTER) return;
@@ -80,7 +79,6 @@ void fight_monster(Player *p, Monster *m) {
                 if (p->hp > p->max_hp) p->hp = p->max_hp;
             }
 
-            // 보스 몬스터 잡으면 게임 종료 플래그 세우기
             if (strcmp(m->name, "Boss") == 0) {
                 game_over = 1;
             }

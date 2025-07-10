@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+
 #include "player.h"
 
 Player player;
@@ -48,16 +49,16 @@ void level_up(Player *p) {
 void add_accessory(Player *p, const char *code) {
     if (p->accessory_count >= MAX_ACCESSORIES) return;
     if (has_accessory(p, code)) return;
-    if (strlen(code) != 2) return; // 장신구 코드 길이 확인
+    if (strlen(code) != 2) return;
     printf("Adding accessory: %s\n", code);
     printf("Current count: %d\n", p->accessory_count);
 
 
-    strncpy(p->accessories[p->accessory_count], code,3);  // 안전하게 복사
+    strncpy(p->accessories[p->accessory_count], code,3);
     p->accessories[p->accessory_count][3] = '\0';
     p->accessory_count++;
 
-    printf("Accessory added: %s\n", code);  // 디버깅용 출력
+    printf("Accessory added: %s\n", code);
 
     if (strcmp(code, "RE") == 0) {
         p->re_used = 0;

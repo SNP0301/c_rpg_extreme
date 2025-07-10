@@ -4,10 +4,10 @@
 #define MAX_ITEM 100
 
 typedef struct {
-    int x, y;          // 위치
-    char type;         // 'W', 'A', 'O' (무기, 방어구, 액세서리)
-    char name[4];      // 장신구 코드 등 (최대 3글자 + null)
-    int value;         // 무기/방어구 공격력/방어력 수치
+    int x, y;         
+    char type;        
+    char name[4];
+    int value;
 } Item;
 
 extern Item items[MAX_ITEM];

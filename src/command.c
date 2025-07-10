@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h> 
 
-
 #include "command.h"
 #include "player.h"
 #include "map.h"
